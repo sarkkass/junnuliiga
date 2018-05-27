@@ -1,9 +1,19 @@
 <?php
 if(empty($_POST)) {
   die("Access denied!");
-}
 
-if (isset($_POST['joukkueNimi']) && !empty($_POST['joukkueNimi'])) {
+}
+require_once('db.php');
+
+$sql = "SELECT joukkueNimi FROM sarja_f8";
+$result = $conn->query($sql);
+
+if ($result->num_rows >= 8) {
+  die("Joukkuelukumäärä täyttynyt");
+
+  }
+
+else if (isset($_POST['joukkueNimi']) && !empty($_POST['joukkueNimi'])) {
   $joukkueNimi = $_POST['joukkueNimi'];
   $yhtNimi = $_POST['yhtNimi'];
   $yhtEmail = $_POST['yhtEmail'];
@@ -11,7 +21,6 @@ if (isset($_POST['joukkueNimi']) && !empty($_POST['joukkueNimi'])) {
 
 }
 
-require_once('db.php');
 $sql = "INSERT INTO sarja_f8 (joukkueNimi, yhtNimi, yhtEmail, yhtPhone) VALUES ('$joukkueNimi', '$yhtNimi', '$yhtEmail', '$yhtPhone');";
 
 if ($conn->query($sql) === TRUE) {
